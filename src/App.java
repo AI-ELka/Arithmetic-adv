@@ -5,18 +5,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class App extends Application {
-
     @Override
-    public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("cm1.fxml"));
-        stage.setTitle("Calcul Mental");
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("cm1.fxml"));
+        Parent root = loader.load();
+        Controller controller = loader.getController();
         Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-        Controller.startTimer();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        controller.startTimer();
     }
 
     public static void main(String[] args) {
