@@ -1,7 +1,4 @@
-import java.util.Arrays;
 import java.util.Random;
-import java.util.stream.Collectors;
-
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -14,10 +11,10 @@ import javafx.scene.control.TextField;
 
 public class Controller {
     @FXML
-    private ComboBox<String> operatorComboBox;
+    private ComboBox<Operator> operatorComboBox;
 
     @FXML
-    private ComboBox<String> difficultyComboBox;
+    private ComboBox<Difficulty> difficultyComboBox;
 
     @FXML
     private Label problemLabel;
@@ -33,51 +30,48 @@ public class Controller {
 
     private IntegerProperty score = new SimpleIntegerProperty(0);
     private IntegerProperty timeLeft = new SimpleIntegerProperty(60);
-    private String operator;
-    private int difficulty;
+    private Operator operator;
+    private Difficulty difficulty;
     private Random random = new Random();
+
     public enum Operator {
         PLUS("+"),
         MINUS("-"),
         TIMES("*"),
         DIVIDE("/");
-    
+
         private final String symbol;
-    
+
         Operator(String symbol) {
             this.symbol = symbol;
         }
-    
+
         public String getSymbol() {
             return symbol;
         }
     }
-    
+
     public enum Difficulty {
         EASY(10),
         MEDIUM(50),
         HARD(100);
-    
+
         private final int limit;
-    
+
         Difficulty(int limit) {
             this.limit = limit;
         }
-    
+
         public int getLimit() {
             return limit;
         }
     }
 
     public void initialize() {
-        operatorComboBox.getItems().addAll(Arrays.stream(Operator.values())
-                                                 .map(Operator::getSymbol)
-                                                 .collect(Collectors.toList()));
-        difficultyComboBox.getItems().addAll(Arrays.stream(Difficulty.values())
-                                                   .map(Difficulty::name)
-                                                   .collect(Collectors.toList()));
-        operatorComboBox.setValue(Operator.PLUS.getSymbol());
-        difficultyComboBox.setValue(Difficulty.EASY.name());
+        operatorComboBox.getItems().addAll(Operator.values());
+        difficultyComboBox.getItems().addAll(Difficulty.values());
+        operatorComboBox.setValue(Operator.PLUS);
+        difficultyComboBox.setValue(Difficulty.EASY);
         scoreLabel.textProperty().bind(score.asString("Score: %d"));
         timeLabel.textProperty().bind(timeLeft.asString("Time left: %d seconds"));
         startTimer();
@@ -110,34 +104,34 @@ public class Controller {
             return;
         }
         operator = operatorComboBox.getValue();
-        String difficultyString = difficultyComboBox.getValue();
-        if (difficultyString.equals("Easy")) {
-            difficulty = 10;
-        } else if (difficultyString.equals("Medium")) {
-            difficulty = 100;
-        } else if (difficultyString.equals("Hard")) {
-            difficulty = 1000;
-        }
-        int operand1 = random.nextInt(difficulty) + 1;
-        int operand2 = random.nextInt(difficulty) + 1;
-        problemLabel.setText(operand1 + " " + operator + " " + operand2 + " = ");
+        difficulty = difficultyComboBox.getValue();
+        int operand1 = random.nextInt(difficulty.getLimit()) + 1;
+        int operand2 = random.nextInt(difficulty.getLimit()) + 1;
+        problemLabel.setText(operand1 + " " + operator.getSymbol() + " " + operand2 + " = ");
     }
 
     private int evaluateProblem() {
         String problemString = problemLabel.getText();
-        String[] parts = problemString.split(" ");
+        String[] parts = problemString.split("\\s+");
         int operand1 = Integer.parseInt(parts[0]);
-        operator = parts[1];
+        operator = operatorComboBox.getValue();
         int operand2 = Integer.parseInt(parts[2]);
         int answer;
-        if (operator.equals("+")) {
-            answer = operand1 + operand2;
-        } else if (operator.equals("-")) {
-            answer = operand1 - operand2;
-        } else if (operator.equals("*")) {
-            answer = operand1 * operand2;
-        } else {
-            answer = operand1 / operand2;
+        switch (operator) {
+            case PLUS:
+                answer = operand1 + operand2;
+                break;
+            case MINUS:
+                answer = operand1 - operand2;
+                break;
+            case TIMES:
+                answer = operand1 * operand2;
+                break;
+            case DIVIDE:
+                answer = operand1 / operand2;
+                break;
+            default:
+                answer = 0;
         }
         return answer;
     }
@@ -156,8 +150,8 @@ public class Controller {
             protected Void call() throws Exception {
                 while (timeLeft.get() > 0) {
                     Thread.sleep(1000);
-                    timeLeft.set(timeLeft.get() + 1);
-                    updateMessage("Time: " + timeLeft + "s");
+                    timeLeft.set(timeLeft.get() - 1);
+                    updateMessage("Time: " + timeLeft.get() + "s");
                 }
                 return null;
             }

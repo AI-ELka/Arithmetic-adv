@@ -13,9 +13,9 @@
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Operator" />
-            <ComboBox fx:id="operatorComboBox" onAction="#initialize" prefWidth="150.0" />
+            <ComboBox fx:id="operatorComboBox" prefWidth="150.0" />
             <Label text="Difficulty" />
-            <ComboBox fx:id="difficultyComboBox" onAction="#initialize" prefWidth="150.0" />
+            <ComboBox fx:id="difficultyComboBox" prefWidth="150.0" />
          </children>
       </HBox>
    </top>
