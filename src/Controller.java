@@ -86,9 +86,9 @@ public class Controller {
             if (answer == correctAnswer) {
                 score.set(score.get() + 1);
             }
-            scoreLabel.setText("Score: " + score);
-            generateProblem();
+            scoreLabel.textProperty().bind(score.asString("Score: %d"));
             answerTextField.clear();
+            generateProblem(); // add this line
         } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -103,11 +103,17 @@ public class Controller {
             endGame();
             return;
         }
-        operator = operatorComboBox.getValue();
         difficulty = difficultyComboBox.getValue();
         int operand1 = random.nextInt(difficulty.getLimit()) + 1;
         int operand2 = random.nextInt(difficulty.getLimit()) + 1;
+        if (random.nextBoolean()) {
+            operator = operatorComboBox.getValue();
+        } else {
+            operator = Operator.values()[random.nextInt(Operator.values().length)];
+            operatorComboBox.setValue(operator);
+        }
         problemLabel.setText(operand1 + " " + operator.getSymbol() + " " + operand2 + " = ");
+        answerTextField.setText("");
     }
 
     private int evaluateProblem() {
