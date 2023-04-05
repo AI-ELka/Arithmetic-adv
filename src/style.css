@@ -1,0 +1,77 @@
+/* Set the background color of the BorderPane */
+BorderPane {
+    -fx-background-color: #f2f2f2;
+}
+
+/* Style the top HBox */
+.top {
+    -fx-padding: 10px;
+    -fx-background-color: #fff;
+    -fx-border-style: solid;
+    -fx-border-width: 0 0 2px 0;
+    -fx-border-color: #ccc;
+}
+
+/* Style the ComboBoxes in the top HBox */
+ComboBox {
+    -fx-font-size: 14px;
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+}
+
+/* Style the center VBox */
+.center {
+    -fx-padding: 30px 0;
+    -fx-background-color: #fff;
+    -fx-border-style: solid;
+    -fx-border-width: 2px;
+    -fx-border-color: #ccc;
+}
+
+/* Style the problem label in the center VBox */
+#problemLabel {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* Style the answer text field in the center VBox */
+#answerTextField {
+    -fx-font-size: 18px;
+    -fx-background-color: #f2f2f2;
+    -fx-border-color: #ccc;
+}
+
+/* Style the submit button in the center VBox */
+.button {
+    -fx-font-size: 18px;
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: #fff;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px 20px;
+}
+
+/* Style the bottom HBox */
+.bottom {
+    -fx-padding: 10px;
+    -fx-background-color: #fff;
+    -fx-border-style: solid;
+    -fx-border-width: 2px 0 0 0;
+    -fx-border-color: #ccc;
+}
+
+/* Style the score label in the bottom HBox */
+#scoreLabel {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-padding: 0 20px;
+}
+
+/* Style the time label in the bottom HBox */
+#timeLabel {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-padding: 0 20px;
+}
